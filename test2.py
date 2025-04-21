@@ -466,6 +466,21 @@ with gr.Blocks() as demo:
         inputs=text_input,
         outputs=[chatbot, response_textbox, audio_output]
     )
+
+    #add a feeback form field and submit button that gets saved to a csv file
+    feedback_input = gr.Textbox(label="Feedback", placeholder="Type your feedback here...")
+    submit_feedback_btn = gr.Button("Submit Feedback")
+    feedback_output = gr.Textbox(label="Feedback Status")
+    submit_feedback_btn.click(
+        fn=lambda feedback: save_feedback(feedback),
+        inputs=feedback_input,
+        outputs=feedback_output
+    )
+    # Save feedback to CSV
+    def save_feedback(feedback):
+        with open("feedback.csv", "a") as f:
+            f.write(f"{feedback}\n")
+        return "Feedback submitted successfully!"
     
 
 
